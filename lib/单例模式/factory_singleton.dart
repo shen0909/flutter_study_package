@@ -7,6 +7,8 @@ class factroySingleton{
   factroySingleton._internal();
 
   //工厂构造函数
+  /*通过工厂方法获取该类的实例，将实例对象按对应的方法返回出去
+   *实例不存在时，调用命名构造方法获取一个新的实例 */
   factory factroySingleton(){
     if(_instance==null){
       _instance=factroySingleton._internal();
