@@ -1,6 +1,8 @@
 //使用单例模式，封装一个网络工具类
 import 'package:dio/dio.dart';
 
+import 'dio_log_interceptor.dart';
+
 class HttpManager{
 
   //1、通过静态方法 getInstance() 访问实例—————— getInstance() 构造、获取、返回实例
@@ -57,127 +59,54 @@ class HttpManager{
   /*BaseOptions 描述的是 Dio 实例发起网络请求的的公共配置，
    *而 Options 描述了每一个Http请求的配置信息，每一次请求都可以单独配置，
    *单次请求的 Options 中的配置信息可以覆盖 BaseOptions 中的配置。*/
-  get(String url,{option,params}) async {
+  get(String url,{option,params,data}) async {
     Response response;
     try{
-      response=await dio.get(url,options: option,queryParameters: params);
+      response=await dio.get(url,options: option,queryParameters: params,data: data);
       print("response.data:${response.data}");
       print("response.statusCode:${response.statusCode}");
       print("response.statusMessage:${response.statusMessage}\n");
       // print("response.headers:${response.headers}");
 
     }
-    on Exception catch(e){
-      print("Get方法出错:${e.toString()}");
+    on DioException  catch(e){
+      print(e.requestOptions);
+      print(e.message);
     }
 
   }
+
   /*Dio的post方法更像是dio.get()。其他一切保持不变，但我们需要提供标头信息和数据以发送到服务器。
    * 大多数 post 方法需要发送特殊类型的令牌才能发送到服务器。我们将在标头中发送该信息。
    * 首先让我们研究从本地设备查找令牌然后返回该 header 的方法。我们将在dio.post()方法中使用返回的标头。*/
-  post() async {
+  post(api,{params}) async {
     Response response;
-    //请求参数
-    Map<String, dynamic> params = Map<String, dynamic>();
-    params["marketNo"] = "PC_Flutter";
-    params["versionNo"] = '10105';/*版本号*/
-    params["token"] = '6b2fc908787c428ab16559fce9d86bf2';
-    params["uid"] = '201323';
+    //请求参数 为空时，配置
+    if(params == null){
+      params = Map<String, dynamic>();
+      params["marketNo"] = "PC_Flutter";
+      params["versionNo"] = '10105';/*版本号*/
+      params["token"] = '6b2fc908787c428ab16559fce9d86bf2';
+      params["uid"] = '201323';
+    }
+
     //FinanceAppAPI/trade/queryRate  获取汇率接口
     //FinanceAppAPI/user/queryLoginTradeAccount 用户信息接口
     //FinanceAppAPI/trade/queryMarkets   股票市场接口
-    response=await dio.post(
-        "FinanceAppAPI/trade/queryMarkets",
+    try{
+      response=await dio.post(
+        api,
         queryParameters: params,
-
-    );
-    print("post response:${response.data}");
-  }
-}
-
-//自定义dio拦截器
-class DioLogInterceptor extends Interceptor{
-
-  ///请求前
-  @override
-  Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    String requestStr="";
-    if(options.path!=null){
-      requestStr = "\n==================== 请求前拦截——REQUEST ====================\n"
-          "- URL:\n${options.path}\n"
-          "- METHOD: ${options.method}\n";
-    }
-    else{
-      requestStr = "\n==================== 请求前拦截——REQUEST ====================\n"
-          "- URL:\n${options.baseUrl + options.path}\n"
-          "- METHOD: ${options.method}\n";
-    }
-
-
-    requestStr += "- HEADER:\n${options.headers.mapToStructureString()}\n";
-
-    final data = options.data;
-    if (data != null) {
-      if (data is Map)
-        requestStr += "- BODY:\n${data.mapToStructureString()}\n";
-      else if (data is FormData) {
-        final formDataMap = Map()..addEntries(data.fields)..addEntries(data.files);
-        requestStr += "- BODY:\n${formDataMap.mapToStructureString()}\n";
-      } else
-        requestStr += "- BODY:\n${data.toString()}\n";
-    }
-    print(requestStr);
-    return handler.next(options);
-  }
-
-}
-///Map拓展，MAp转字符串输出
-extension Map2StringEx on Map {
-  String mapToStructureString({int indentation = 2}) {
-    String result = "";
-    String indentationStr = " " * indentation;
-    if (true) {
-      result += "{";
-      this.forEach((key, value) {
-        if (value is Map) {
-          var temp = value.mapToStructureString(indentation: indentation + 2);
-          result += "\n$indentationStr" + "\"$key\" : $temp,";
-        } else if (value is List) {
-          result += "\n$indentationStr" +
-              "\"$key\" : ${value.listToStructureString(indentation: indentation + 2)},";
-        } else {
-          result += "\n$indentationStr" + "\"$key\" : \"$value\",";
+        onSendProgress: (int sent,int total){
+          print("监听发送（上传）数据进度:${sent} ${total}");
         }
-      });
-      result = result.substring(0, result.length - 1);
-      result += indentation == 2 ? "\n}" : "\n${" " * (indentation - 1)}}";
+      );
+      print("post response:${response.data}\n");
+    }
+    on DioException catch (e){
+     print("post出错:${e.toString()}");
     }
 
-    return result;
   }
 }
 
-///List拓展，List转字符串输出
-extension List2StringEx on List {
-  String listToStructureString({int indentation = 2}) {
-    String result = "";
-    String indentationStr = " " * indentation;
-    if (true) {
-      result += "$indentationStr[";
-      this.forEach((value) {
-        if (value is Map) {
-          var temp = value.mapToStructureString(indentation: indentation + 2);
-          result += "\n$indentationStr" + "\"$temp\",";
-        } else if (value is List) {
-          result += value.listToStructureString(indentation: indentation + 2);
-        } else {
-          result += "\n$indentationStr" + "\"$value\",";
-        }
-      });
-      result = result.substring(0, result.length - 1);
-      result += "\n$indentationStr]";
-    }
-
-    return result;
-  }
-}

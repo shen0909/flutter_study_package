@@ -13,7 +13,7 @@ main() async{
 
    // 获取id 法二
    HttpManager.getInstance().get("https://reqres.in/api/users?id=2");
-
+   
    // 获取id 法三 用参数类型
    Map<String,dynamic> map = Map();
    map["id"]= 3;
@@ -22,6 +22,15 @@ main() async{
      option: Options(responseType: ResponseType.json),
      params:map
    );
-  // HttpManager.getInstance().post();
+
+   HttpManager.getInstance().post("FinanceAppAPI/user/queryLoginTradeAccount");
+
+   HttpManager.getInstance().post(
+       "https://www.wanandroid.com/user/register",
+     params: {
+          "username": "akshfalwhfaina",
+          "password": "123456",
+          "repassword": "123456"}
+   );
 }
 
