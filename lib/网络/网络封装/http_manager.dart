@@ -3,10 +3,10 @@ import 'package:dio/dio.dart';
 
 class HttpManager{
 
-  //1、工厂构造函数——————构造、获取、返回实例
+  //1、通过静态方法 getInstance() 访问实例—————— getInstance() 构造、获取、返回实例
   /*通过工厂方法获取该类的实例，将实例对象按对应的方法返回出去
    *实例不存在时，调用命名构造方法获取一个新的实例 */
-  factory HttpManager(){
+  static HttpManager getInstance(){
     if(_instance==null){
       _instance=HttpManager._internal();
     }
@@ -30,6 +30,7 @@ class HttpManager{
       //包头
       headers: {
         "Content-Type": "application/json;Charset=UTF-8",
+        "connect":"get"
       },
       //内容类型
       contentType: 'application/json;Charset=UTF-8',
@@ -38,6 +39,7 @@ class HttpManager{
     );
     //4.3 初始化dio实例
     dio=new Dio(baseOptions) ;
+    //添加一个拦截器
     dio.interceptors.add(new DioLogInterceptor());
   }
 
@@ -55,9 +57,20 @@ class HttpManager{
   /*BaseOptions 描述的是 Dio 实例发起网络请求的的公共配置，
    *而 Options 描述了每一个Http请求的配置信息，每一次请求都可以单独配置，
    *单次请求的 Options 中的配置信息可以覆盖 BaseOptions 中的配置。*/
-  get() async {
-    Response response=await dio.get("Customer/openaccount/v1/loadSelectList",);
-    print("response.data:${response.data}");
+  get(String url,{option,params}) async {
+    Response response;
+    try{
+      response=await dio.get(url,options: option,queryParameters: params);
+      print("response.data:${response.data}");
+      print("response.statusCode:${response.statusCode}");
+      print("response.statusMessage:${response.statusMessage}\n");
+      // print("response.headers:${response.headers}");
+
+    }
+    on Exception catch(e){
+      print("Get方法出错:${e.toString()}");
+    }
+
   }
   /*Dio的post方法更像是dio.get()。其他一切保持不变，但我们需要提供标头信息和数据以发送到服务器。
    * 大多数 post 方法需要发送特殊类型的令牌才能发送到服务器。我们将在标头中发送该信息。
@@ -88,9 +101,18 @@ class DioLogInterceptor extends Interceptor{
   ///请求前
   @override
   Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    String requestStr = "\n==================== 请求前拦截——REQUEST ====================\n"
-        "- URL:\n${options.baseUrl + options.path}\n"
-        "- METHOD: ${options.method}\n";
+    String requestStr="";
+    if(options.path!=null){
+      requestStr = "\n==================== 请求前拦截——REQUEST ====================\n"
+          "- URL:\n${options.path}\n"
+          "- METHOD: ${options.method}\n";
+    }
+    else{
+      requestStr = "\n==================== 请求前拦截——REQUEST ====================\n"
+          "- URL:\n${options.baseUrl + options.path}\n"
+          "- METHOD: ${options.method}\n";
+    }
+
 
     requestStr += "- HEADER:\n${options.headers.mapToStructureString()}\n";
 
