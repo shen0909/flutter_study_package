@@ -27,10 +27,22 @@ main() async{
 
    HttpManager.getInstance().post(
        "https://www.wanandroid.com/user/register",
-     params: {
+       params: {
           "username": "akshfalwhfaina",
           "password": "123456",
           "repassword": "123456"}
    );
+   HttpManager.getInstance().post(
+       "https://demo-api.apipost.cn/api/demo/login",
+       params: {
+         "mobile":"123456",
+         "ver_code":"12"
+      }
+   );
+   HttpManager.getInstance().post(
+       "https://lionstock-uat-new.chinaeast2.cloudapp.chinacloudapi.cn:8200/FinanceAppAPI/stock/index",
+   );
+
+
 }
 
