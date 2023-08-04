@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/factory_singleton.dart';
-import 'package:flutterapp/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/getter_singleton.dart';
-import '../单例模式/Common_Singleton.dart';
-import 'null_judge_singleton.dart';
+import 'package:flutterapp/5%20%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/Common_Singleton.dart';
+import 'package:flutterapp/5%20%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/getter_singleton.dart';
+import 'package:flutterapp/5%20%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/null_judge_singleton.dart';
+
+import 'factory_singleton.dart';
 main()=>runApp(MyApp());
 
 class MyApp extends StatelessWidget {

@@ -1,7 +1,8 @@
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/privider/ViewModel/user_view_model.dart';
+
+import '../3 状态管理/privider/ViewModel/user_view_model.dart';
 /*跨组件事件
 *1、创建一个全局的eventbus对象
 * 2、监听事件类型（开发中一般不是监听一个单一类型而是监听一个类）*/
