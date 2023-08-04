@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-main()=>runApp(MyApp());
+main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class HYHomePage extends StatelessWidget {
   const HYHomePage({Key? key}) : super(key: key);
 
