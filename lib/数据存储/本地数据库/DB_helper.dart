@@ -7,10 +7,13 @@ class DBHelp {
   //私有实例
   static DBHelp? _instance;
 
+  //私有命名构造函数,确保类不能从外部被实例化
+  DBHelp._internal();
+
   //getInstance方法 获取私有实例
   static DBHelp getInstance() {
     if (_instance == null) {
-      _instance = DBHelp();
+      _instance = DBHelp._internal();
     }
     return _instance!;
   }
