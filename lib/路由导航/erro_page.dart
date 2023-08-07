@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+//跳转错误显示页面
 class HYErroPage extends StatelessWidget {
   const HYErroPage({Key? key}) : super(key: key);
 

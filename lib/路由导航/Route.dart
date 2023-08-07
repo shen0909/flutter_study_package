@@ -1,11 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/%E8%B7%AF%E7%94%B1%E5%AF%BC%E8%88%AA/detail.dart';
-import 'package:flutterapp/%E8%B7%AF%E7%94%B1%E5%AF%BC%E8%88%AA/erro_page.dart';
 import 'package:flutterapp/%E8%B7%AF%E7%94%B1%E5%AF%BC%E8%88%AA/router/router.dart';
-import 'About_page.dart';
 
 /*Route：一个页面要想被路由统一管理，必须包装为一个Route
 *但是Route是一个抽象类，所以它是不能实例化的
@@ -25,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: "Route",
       //home: HYpage(),
       /*跳转到详情页的不普通方法*/
-      routes:Routers.routes,
+      routes:Routerss.routes,
       //封装成数组
       /*{
         "/":(ctx)=>HYpage(),
@@ -34,7 +30,7 @@ class MyApp extends StatelessWidget {
       },*/
       /*onGenerateRoute,路由钩子监听跳转的路由，当跳转的路由在routes中没有配置时就会在这里配置
        *我们可以在该函数中，手动创建对应的Route进行返回；*/
-      onGenerateRoute: Routers.GenerateRoute,
+      onGenerateRoute: Routerss.GenerateRoute,
           /*(settings){
         if(settings.name =="/detail"){
           return MaterialPageRoute(builder: (context){
@@ -44,7 +40,7 @@ class MyApp extends StatelessWidget {
         return null;
       },*/
       /*当我们打开的路由名称根本不存在时如何跳转到一个统一的错误页面？*/
-      onUnknownRoute:Routers.unknowRoute,
+      onUnknownRoute:Routerss.unknowRoute,
           /*(settings){
         return MaterialPageRoute(builder: (context){
           return HYErroPage();

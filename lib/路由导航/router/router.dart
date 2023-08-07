@@ -5,10 +5,12 @@ import '../About_page.dart';
 import '../Route.dart';
 import '../detail.dart';
 import '../erro_page.dart';
-class Routers{
+class Routerss{
+
   static final Map<String,WidgetBuilder> routes={
     "/":(ctx)=>HYpage(),
     //"/about":(ctx)=>HYAboutPage(),
+    // key : 值 法
     HYAboutPage.routeName:(ctx)=>HYAboutPage(),
   };
 
@@ -21,6 +23,7 @@ class Routers{
     return null;
   };
 
+  //跳转错误显示页面
   static final RouteFactory unknowRoute=(settings){
     return MaterialPageRoute(builder: (context){
       return HYErroPage();

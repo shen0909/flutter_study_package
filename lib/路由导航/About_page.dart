@@ -6,6 +6,7 @@ class HYAboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     /*ModalRoute.of(context)可以拿到ModalRoute对象*/
     final message=ModalRoute.of(context)?.settings.arguments;
     
