@@ -1,7 +1,7 @@
-import 'package:flutterapp/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/%E6%9C%AC%E5%9C%B0%E6%95%B0%E6%8D%AE%E5%BA%93/DB_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../本地数据库/model.dart';
+import 'DB_helper.dart';
 
 main() async {
   //初始化数据库

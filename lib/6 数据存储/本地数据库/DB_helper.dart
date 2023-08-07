@@ -1,7 +1,8 @@
-import 'package:flutterapp/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8/%E6%9C%AC%E5%9C%B0%E6%95%B0%E6%8D%AE%E5%BA%93/model.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:path/path.dart' as path;
+
+import 'model.dart';
 
 class DBHelp {
   //私有实例

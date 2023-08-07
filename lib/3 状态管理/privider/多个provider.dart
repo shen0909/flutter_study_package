@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterapp/%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/privider/ViewModel/user_view_model.dart';
 import 'package:provider/provider.dart';
 import 'ViewModel/counter_view_model.dart';
+import 'ViewModel/user_view_model.dart';
 /*状态管理
 * 2、provider
 * Tep1 添加provider依赖
