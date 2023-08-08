@@ -29,7 +29,7 @@ class HttpManager{
       connectTimeout: Duration(milliseconds: 30000),
       //接收超时
       receiveTimeout: Duration(milliseconds: 5000),
-      //包头
+      //包头/请求头
       headers: {
         "Content-Type": "application/json;Charset=UTF-8",
         "connect":"get"
@@ -41,7 +41,7 @@ class HttpManager{
     );
     //4.3 初始化dio实例
     dio=new Dio(baseOptions) ;
-    //添加一个拦截器
+    //添加一个自定义拦截器
     dio.interceptors.add(new DioLogInterceptor());
   }
 
@@ -63,17 +63,23 @@ class HttpManager{
     Response response;
     try{
       response=await dio.get(url,options: option,queryParameters: params,data: data);
+      //响应体
       print("response.data:${response.data}");
+      //响应的状态码
       print("response.statusCode:${response.statusCode}");
+      //对应状态码的详情信息
       print("response.statusMessage:${response.statusMessage}\n");
-      // print("response.headers:${response.headers}");
-
+      //响应头
+      print("response.headers:${response.headers}");
+      //请求的实际配置
+      print("response.requestOptions:${response.requestOptions}");
+      //返回响应的数据
+      return response.data;
     }
     on DioException  catch(e){
       print(e.requestOptions);
       print(e.message);
     }
-
   }
 
   /*Dio的post方法更像是dio.get()。其他一切保持不变，但我们需要提供标头信息和数据以发送到服务器。

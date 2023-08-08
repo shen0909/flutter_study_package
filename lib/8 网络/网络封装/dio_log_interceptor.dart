@@ -6,8 +6,8 @@ class DioLogInterceptor extends Interceptor{
   ///请求前
   @override
   Future onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    String requestStr = "\n==================== 请求前拦截——REQUEST ====================\n"
-        "- URL:\n${options.baseUrl + options.path}\n"
+    String requestStr = "==================== 请求前拦截——REQUEST ====================\n"
+        "- URL:${options.baseUrl + options.path}\n"
         "- METHOD: ${options.method}\n";
 
 
@@ -23,10 +23,45 @@ class DioLogInterceptor extends Interceptor{
       } else
         requestStr += "- BODY:\n${data.toString()}\n";
     }
+    else{
+      requestStr += "- BODY:options.data 为空\n";
+    }
     print(requestStr);
     return handler.next(options);
   }
 
+  ///响应前
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    String responseStr = "\n==================== 响应前——RESPONSE ====================\n"
+        "- URL:${response.realUri}\n";
+    responseStr += "- METHOD:${response.requestOptions.method}\n";
+    responseStr += "- HEADER:\n{";
+    response.headers.forEach((key, list) => responseStr += "\n  " + "\"$key\" : \"$list\",");
+    responseStr += "\n}\n";
+    responseStr += "- STATUS: ${response.statusCode}\n";
+    print(responseStr);
+    return handler.next(response);
+  }
+
+  ///错误前
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    String errorStr = "\n==================== 出错前——RESPONSE ====================\n"
+        "- URL: ${err.requestOptions.baseUrl + err.requestOptions.path}\n"
+        "- METHOD: ${err.requestOptions.method}\n";
+
+    if (err.response != null && err.response!.data != null) {
+      errorStr += "- HEADER:\n${err.response!.headers.map.mapToStructureString()}\n";
+      print('╔ ${err.type.toString()}');
+      // errorStr += "- ERROR:\n${_parseResponse(err.response!)}\n";
+    } else {
+      errorStr += "- ERRORTYPE: ${err.type}\n";
+      errorStr += "- MSG: ${err.message}\n";
+    }
+    print(errorStr);
+    return handler.next(err);
+  }
 }
 ///Map拓展，MAp转字符串输出
 extension Map2StringEx on Map {
