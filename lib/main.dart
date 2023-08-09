@@ -94,11 +94,11 @@ class ButtonPage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                         onPressed: (){
-                          print("Json");
-                          Navigator.pushNamed(context, "/Json");
+                          print("DioUsePage");
+                          Navigator.pushNamed(context, "/DioUsePage");
                         },
-                        child: Text("Json")),
-                    Text("Json"),
+                        child: Text("DioUsePage")),
+                    Text("DioUsePage"),
                   ],
                 ),
               ),
