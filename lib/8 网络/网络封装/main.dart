@@ -62,6 +62,9 @@ class DioUse extends StatelessWidget {
                   onPressed: () => get_params(),
                   child: Text("get_有参"),
                 ),
+                SizedBox(
+                  width: 20,
+                ),
                 ElevatedButton(
                   onPressed: () => post(),
                   child: Text("post"),
@@ -149,19 +152,26 @@ void get_params()async{
 }
 
 void post()async{
-  await HttpManager.getInstance().post("FinanceAppAPI/user/queryLoginTradeAccount");
+  // await HttpManager.getInstance().post("FinanceAppAPI/user/queryLoginTradeAccount");
 
-  await HttpManager.getInstance().post("https://www.wanandroid.com/user/register",
+  //注册
+  /*await HttpManager.getInstance().post("https://www.wanandroid.com/user/register",
       params: {
         "username": "akshfalwhfaina",
         "password": "123456",
         "repassword": "123456"
-      });
-  await HttpManager.getInstance().post("https://demo-api.apipost.cn/api/demo/login",
+      });*/
+  await HttpManager.getInstance().post("https://www.wanandroid.com/user/login",
+      params: {
+        "username": "akshfalwhfaina",
+        "password": "123456",
+      }
+  );
+      /*await HttpManager.getInstance().post("https://demo-api.apipost.cn/api/demo/login",
       params: {"mobile": "123456", "ver_code": "12"});
   await HttpManager.getInstance().post(
     "https://lionstock-uat-new.chinaeast2.cloudapp.chinacloudapi.cn:8200/FinanceAppAPI/stock/index",
-  );
+  );*/
 }
 
 void dio_use() async {

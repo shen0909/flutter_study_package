@@ -102,6 +102,21 @@ class ButtonPage extends StatelessWidget {
                   ],
                 ),
               ),
+              Container(
+                width: 200,
+                child:  Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                        onPressed: (){
+                          print("FocusPage");
+                          Navigator.pushNamed(context, "/Focus");
+                        },
+                        child: Text("Focus")),
+                    Text("Focus"),
+                  ],
+                ),
+              ),
             ],
           ),
 
