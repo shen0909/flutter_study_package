@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-main()=>runApp(MyApp());
+/*main()=>runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       home: keyTransfer(),
     );
   }
-}
+}*/
 class keyTransfer extends StatefulWidget {
   const keyTransfer({Key? key}) : super(key: key);
 
@@ -50,6 +50,15 @@ class _keyTransferState extends State<keyTransfer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Provider_收藏示例"),
+        leading: IconButton(
+          icon: Icon(Icons.keyboard_backspace_sharp,),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Center(
         child: Container(
           child: Column(

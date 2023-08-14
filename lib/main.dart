@@ -109,6 +109,21 @@ class ButtonPage extends StatelessWidget {
                   children: [
                     ElevatedButton(
                         onPressed: (){
+                          print("provider");
+                          Navigator.pushNamed(context, "/provider");
+                        },
+                        child: Text("provider")),
+                    Text("provider"),
+                  ],
+                ),
+              ),
+              Container(
+                width: 200,
+                child:  Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                        onPressed: (){
                           print("FocusPage");
                           Navigator.pushNamed(context, "/Focus");
                         },
@@ -119,8 +134,6 @@ class ButtonPage extends StatelessWidget {
               ),
             ],
           ),
-
-
         ],
       ),
     );

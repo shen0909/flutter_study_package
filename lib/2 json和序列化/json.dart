@@ -54,18 +54,6 @@ class Json extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     json();
-    return MaterialApp(
-      title: "json",
-      debugShowCheckedModeBanner: false,
-      home: HYHomePage(),
-    );
-  }
-}
-class HYHomePage extends StatelessWidget {
-  const HYHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("json"),
@@ -76,4 +64,5 @@ class HYHomePage extends StatelessWidget {
     );
   }
 }
+
 

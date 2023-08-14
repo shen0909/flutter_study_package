@@ -24,6 +24,7 @@ class _FocusMainState extends State<FocusMain> {
     // FocusScope.of(context).requestFocus(fNode);
     // print("FocusScope.of(context).hasPrimaryFocus;${FocusScope.of(context).hasPrimaryFocus}");
     return Scaffold(
+      appBar: AppBar(title: Text("Focus"),),
       body: Container(
         child: Column(
           children: [
