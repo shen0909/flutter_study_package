@@ -134,6 +134,25 @@ class ButtonPage extends StatelessWidget {
               ),
             ],
           ),
+          Row(
+            children: [
+              Container(
+                width: 200,
+                child:  Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                        onPressed: (){
+                          print("getx");
+                          Navigator.pushNamed(context, "/getx");
+                        },
+                        child: Text("getx")),
+                    Text("getx"),
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

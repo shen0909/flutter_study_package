@@ -45,6 +45,7 @@ dependencies:
   calendar_date_picker2: ^0.5.2
   http: ^0.13.5
   file_picker: ^5.2.0
+  get:
 
 
 dev_dependencies:
