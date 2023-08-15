@@ -134,7 +134,9 @@ class ButtonPage extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: 20,),
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 width: 200,
@@ -148,6 +150,21 @@ class ButtonPage extends StatelessWidget {
                         },
                         child: Text("getx")),
                     Text("getx"),
+                  ],
+                ),
+              ),
+              Container(
+                width: 200,
+                child:  Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                        onPressed: (){
+                          print("动画");
+                          Navigator.pushNamed(context, "/动画");
+                        },
+                        child: Text("动画")),
+                    Text("动画"),
                   ],
                 ),
               ),

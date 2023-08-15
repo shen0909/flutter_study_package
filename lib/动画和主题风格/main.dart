@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 //动画实际就是通过创建一个动画对象，Flutter根据动画对象中不同的值给对应的Widget进行渲染，进而实现变化
 /*动画
 * 1、Animation类（是个抽象类）
@@ -25,7 +26,7 @@ import 'package:flutter/material.dart';
     CurvedAnimation(parent:controller,curve: Curves.easeInToLinear);//给controller添加动画速率
     Tween(begin: 100,end: 200).animate(controller);//将Tween和controller 联系起来
 * */
-main()=>runApp(MyApp());
+main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -38,48 +39,50 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 /*心跳动画：由小变大 由大变小*/
-class HYHomePage extends StatefulWidget{
+class HYHomePage extends StatefulWidget {
   @override
   State<HYHomePage> createState() => _HYHomePageState();
 }
 
-class _HYHomePageState extends State<HYHomePage> with SingleTickerProviderStateMixin{
+class _HYHomePageState extends State<HYHomePage>
+    with SingleTickerProviderStateMixin {
   //Tep1、创建AnimationController,创建动画对象
   //(全局变量)
   late AnimationController _controller;
-  late Animation<double>  animation;
+  late Animation<double> animation;
+
   //late Animation sizeAnim;
 
   @override
   void initState() {
     super.initState();
-    _controller=AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 100),//变化时间
-        lowerBound: 0.0,//被忽略值
-        upperBound: 1.0,//已完成值
-    );//this 只能在方法中用
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 100), //变化时间
+      lowerBound: 0.0, //被忽略值
+      upperBound: 1.0, //已完成值
+    ); //this 只能在方法中用
 
     //Tep2、设置curve值(但是记住不能用之前的controller，因为它是匀速的)
-    animation=CurvedAnimation(parent: _controller,curve: Curves.elasticInOut);
+    animation = CurvedAnimation(parent: _controller, curve: Curves.elasticInOut);
     //Tep3、设置Tween
-    animation=  Tween(begin: 390.0,end: 400.0).animate(animation);
+    animation = Tween(begin: 390.0, end: 400.0).animate(animation);
     //Tep4、设置动画的翻转
     animation.addStatusListener((status) {
-      if(status==AnimationStatus.completed){//当动画完成时
+      if (status == AnimationStatus.completed) {
+        //当动画完成时
         _controller.reverse();
-      }
-      else if(status==AnimationStatus.dismissed){//当动画未完成时，继续向前执行
+      } else if (status == AnimationStatus.dismissed) {
+        //当动画未完成时，继续向前执行
         _controller.forward();
       }
     });
     //Tep、（动画的值在改变但是画面没有改变）监听动画值的改变，重新构建状态
     animation.addListener(() {
-      setState((){
-      });
+      setState(() {});
     });
-
   }
 
   @override
@@ -89,17 +92,21 @@ class _HYHomePageState extends State<HYHomePage> with SingleTickerProviderStateM
         title: Text("首页"),
       ),
       body: Center(
-        child: Icon(Icons.favorite,color: Colors.red,size:animation.value,),
+        child: Icon(
+          Icons.favorite,
+          color: Colors.red,
+          size: animation.value,
+        ),
         /*如何由小变大*/
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.play_arrow),
-        onPressed: (){
+        onPressed: () {
           print("执行动画");
           //_controller.forward();//向前执行动画
           /*点击按钮暂停和开始*/
-          if(_controller.isAnimating)//如果正在执行动画
-            _controller.stop();//则暂停
+          if (_controller.isAnimating) //如果正在执行动画
+            _controller.stop(); //则暂停
           else
             _controller.forward();
         },

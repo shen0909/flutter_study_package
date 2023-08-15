@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import '1 基础widget/key/key.dart';
 import '1 基础widget/日历/CalendarDatePicker2.dart';
 import '10 getx/main.dart';
+import '11 动画/page.dart';
 import '2 json和序列化/json.dart';
 import '3 状态管理/text/favorite_example/favorite.dart';
 import '8 网络/网络封装/main.dart';
@@ -16,5 +17,6 @@ class main_router{
     '/provider':(context)=>ProviderMyApp(),
     '/Focus':(context)=>FocusMain(),
     '/getx':(context)=>GetXpage(),
+    '/动画':(context)=>AnimationPages(),
   };
 }
