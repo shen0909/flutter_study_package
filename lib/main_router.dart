@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutterapp/%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-getx/main_page.dart';
+import 'package:flutterapp/%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95/main.dart';
 import '1 基础widget/key/key.dart';
 import '1 基础widget/日历/CalendarDatePicker2.dart';
 import '10 getx/main.dart';
@@ -18,5 +20,7 @@ class main_router{
     '/Focus':(context)=>FocusMain(),
     '/getx':(context)=>GetXpage(),
     '/动画':(context)=>AnimationPages(),
+    '/手势登录-非getx':(context)=>gHYHomePage(),
+    '/手势登录-getx':(context)=>GMainPage(),
   };
 }

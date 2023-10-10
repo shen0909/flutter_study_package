@@ -1,10 +1,6 @@
 import 'dart:math';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class pageTwo extends StatelessWidget {
   var controler = Get.find<pageTwoController>();
@@ -12,16 +8,16 @@ class pageTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Page_two"),),
+      appBar: AppBar(title: const Text("Page_two"),),
       body: Center(
         child: Container(
           color: Colors.greenAccent,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("${controler.text}"),
+              Text(controler.text),
               GetBuilder<pageTwoController>(builder: (logic) {
-                return Text("${controler.data}");
+                return Text(controler.data);
               }),
               Obx(() {
                 return Text("${controler.i}");
