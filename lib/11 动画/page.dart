@@ -6,7 +6,7 @@ import 'Hero动画/radial_hero_animation.dart';
 import 'animations/animation.dart';
 import 'animations/animation_AnimatedBuilder.dart';
 import 'animations/animation_AnimationWidget.dart';
-import 'example/animation1.dart';
+import 'animations/colorAnimation.dart';
 import 'example/animation4.dart';
 import 'example/animation5.dart';
 
@@ -74,6 +74,12 @@ class AnimationPages extends StatelessWidget {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>RadialExpansionDemo()));
                   },
                   child: Text("径向动画")),
+              SizedBox(height: 20,),
+              ElevatedButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ColorAnimation()));
+                  },
+                  child: Text("颜色动画")),
             ],
           ),
         ),
