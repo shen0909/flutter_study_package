@@ -21,18 +21,13 @@ class GgesturePage extends StatelessWidget {
           AnimatedBuilder(
               animation: state.animationMag,
               builder: (context,child){
-                return AnimatedBuilder(
-                  animation: state.animationColor,
-                  builder: (BuildContext context, Widget? child) {
-                    return Container(
-                        margin:EdgeInsets.only(
-                          bottom: 20,
-                          left: _errorPwd(state) * 110,
-                          right: state.animationMag.value,
-                        ) ,
-                        child: Text(state.textTip,style: TextStyle(fontSize: 20,color: state.animationColor.value),));
-                  },
-                );
+                return Container(
+                    margin:EdgeInsets.only(
+                      bottom: 20,
+                      left: _errorPwd(state) * 110,
+                      right: state.animationMag.value,
+                    ) ,
+                    child: Text(state.textTip,style: TextStyle(fontSize: 20,color: state.textColor),));
               }),
           const SizedBox(height: 20,),
           // 绘制密码盘

@@ -19,6 +19,10 @@ class PwdpanState {
   late final Function() onPanDown;
   late final Function(List<int>) onPanUp;
 
+  //密码设置成功
+  bool setSuc = false;
+  List<int> getIndex = [];
+
   PwdpanState() {
     ///Initialize variables
   }

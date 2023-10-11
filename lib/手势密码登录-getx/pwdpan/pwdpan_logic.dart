@@ -1,14 +1,39 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterapp/%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-getx/common/eventbus.dart';
 import 'package:get/get.dart';
 import '../../手势密码登录/point.dart';
+import '../ggesture/ggesture_logic.dart';
 import 'pwdpan_state.dart';
 
 class PwdpanLogic extends GetxController {
 
 
   final PwdpanState state = PwdpanState();
+  final gestureLogic = Get.find<GgestureLogic>();
 
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    // state.onPanUp = gestureLogic.setPwd(state.getIndex);
+
+    // 监听事件
+    eventBusG.on<EventSuccessSetPwd>().listen((event) {
+      print("设置密码的情况:${event.success}");
+      bool suc = event.success;
+      state.setSuc = event.success;
+      // 此时密码设置成功时，不用在设置密码,否则,通知Getsture 需要重新设置密码
+      if(!suc){
+        // state.onPanUp = gestureLogic.setPwd(state.getIndex);
+        eventBusG.fire(EventSetPwd());
+      }
+    });
+
+  }
+
+  // 设置数据
   set(BuildContext context){
     state.size = MediaQuery.of(context).size.width * 0.8;
     final realRingSize = state.ringRadius + state.ringWidth / 2;
@@ -35,11 +60,12 @@ class PwdpanLogic extends GetxController {
   onPanDown(DragDownDetails e,BuildContext context){
     print("按下");
     _clearAllData();
+    // 由于，设置错误时，提示字母的颜色是红色，而每次按下都是新的开始，所以要初始化到黑色
+    gestureLogic.state.textColor = Colors.black;
   }
 
   // 移动时
   onPanUpdate(DragUpdateDetails e,BuildContext context){
-    print("正在移动");
     /*获取用户在屏幕上的点击位置，并将其转换为相对于当前组件的坐标系中的偏移量*/
     /*context.findRenderObject() 用于获取当前组件的渲染对象，即 RenderBox*/
     /*box.globalToLocal(e.globalPosition) 则用于将全局坐标系中的点击位置转换为相对于当前组件的坐标系中的偏移量*/
@@ -61,9 +87,17 @@ class PwdpanLogic extends GetxController {
     if (state.pathPoints.isNotEmpty) {
       state.curPoint = state.pathPoints[state.pathPoints.length - 1];
       /* 处理当前路径圆点的索引，将其转换成int 类型的列表*/
-      List<int> items = state.pathPoints.map((e) => e.position).toList();
-      // onPanUp(items);
-      // if (state.immediatelyClear) _clearAllData(); //clear data
+      state.getIndex = state.pathPoints.map((e) => e.position).toList();
+      // 设置不成功
+      if(!state.setSuc) {
+        // state.onPanUp(state.getIndex);
+        gestureLogic.setPwd(state.getIndex);
+      }
+      else{
+        print("设置密码成功,此时再输入就应该判断密码与设置密码的匹配");
+        gestureLogic.checkResult(state.getIndex);
+      }
+      if (state.immediatelyClear) _clearAllData(); //clear data
       update();
     }
   }
