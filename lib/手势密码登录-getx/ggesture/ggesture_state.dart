@@ -14,8 +14,12 @@ class GgestureState {
   List<int> setPwd = []; //设置的密码
   final int inNum = 5; // 输入密码次数 默认为4
 
+  //—————— 动画 ————————
   String textTip = "请输入手势密码"; // 提示信息
   Color textColor = Colors.black;
+  late AnimationController animationController;
+  late Animation<double> animationMag;
+  late Animation<Color?> animationColor;
 
   GlobalKey<PwdPanState> PwdPanStateKey = GlobalKey();
 

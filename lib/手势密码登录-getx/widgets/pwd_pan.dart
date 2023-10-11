@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import '../../手势密码登录/line_view.dart';
 import '../../手势密码登录/point.dart';
 import '../../手势密码登录/point_view.dart';
 
@@ -103,19 +103,34 @@ class PwdPanState extends State<PwdPan> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: CustomPaint(
-        size: Size(this.size, this.size),
-        painter: PointView(
-            ringWidth: ringWidth,
-            ringRadius: ringRadius,
-            showUnSelectRing: showUnSelectRing,
-            circleRadius: circleRadius,
-            selectColor: selectColor,
-            unSelectColor: unSelectColor,
-            points: points
+    return Stack(
+      children:[
+        // 绘制圆点
+        Container(
+        child: CustomPaint(
+          size: Size(size, size),
+          painter: PointView(
+              ringWidth: ringWidth,
+              ringRadius: ringRadius,
+              showUnSelectRing: showUnSelectRing,
+              circleRadius: circleRadius,
+              selectColor: selectColor,
+              unSelectColor: unSelectColor,
+              points: points
+          ),
         ),
       ),
+        // 绘制线条
+        CustomPaint(
+          size: Size(size, size),
+          painter: LineView(
+              pathPoints: pathPoints,
+              selectColor: selectColor,
+              lineWidth: lineWidth,
+              curPoint: curPoint
+          ),
+        ),
+      ] ,
     );
   }
 }
