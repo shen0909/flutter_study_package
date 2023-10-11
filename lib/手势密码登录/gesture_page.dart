@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../1 基础widget/key/key.dart';
 import 'gesture_view.dart';
@@ -21,30 +20,43 @@ class _GesturePageState extends State<GesturePage> with SingleTickerProviderStat
   Color textColor = Colors.black;
   int num = 4;
 
-  /*//———————— 动画 —————————
-  late AnimationController animationController = AnimationController(
-    vsync: this,
-    duration: Duration(milliseconds: 50),
-    lowerBound: 0.0, //被忽略值
-    upperBound: 1.0,
-  );
-  late Animation<double> animation = Tween(begin: 0.0, end: 100.0).animate(curvedAnimation)
-  ..addListener(() {
-    setState(()=>{});
-  })
-    ..addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        animationController.reset();
-      }
-    });
-  late CurvedAnimation curvedAnimation = CurvedAnimation(curve: Curves.easeIn, parent: animationController);*/
+  //———————— 动画 —————————
+  late AnimationController animationController ;
+  late Animation<double> animation ;
 
 
-  /*@override
+  @override
+  void initState() {
+    super.initState();
+    // 初始化动画
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 50),
+      lowerBound: 0.0, //被忽略值
+      upperBound: 1.0,
+    );
+
+    late CurvedAnimation curvedAnimation = CurvedAnimation(curve: Curves.easeIn, parent: animationController);
+
+    animation = Tween(begin: 0.0, end: 100.0).animate(curvedAnimation)
+      ..addListener(() {
+        setState(()=>{});
+      })
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          print("动画正在执行");
+          animationController.reset();
+        }
+      });
+
+
+  }
+
+  @override
   void dispose() {
     animationController.dispose();
     super.dispose();
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +65,7 @@ class _GesturePageState extends State<GesturePage> with SingleTickerProviderStat
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // 提示文字 不断改变文字的边距
-        /*AnimatedBuilder(
+        AnimatedBuilder(
             animation: animation,
             builder: (c,child){
               return Container(
@@ -64,8 +76,7 @@ class _GesturePageState extends State<GesturePage> with SingleTickerProviderStat
                 ),
                 child: Text(textTip,style: TextStyle(fontSize: 20,color: textColor),),
               );
-            }),*/
-        Text(textTip,style: TextStyle(fontSize: 20,color: textColor),),
+            }),
         Center(
           child: GestureView(
             key: gestureStateKey,
@@ -93,7 +104,7 @@ class _GesturePageState extends State<GesturePage> with SingleTickerProviderStat
     );
   }
 
-  /*// 错误文字的大小
+  // 错误文字的大小
   double _errorPwd(){
     double x = animation.value; // 变化速度 0-10,
     double d = x - x.truncate(); // 获取这个数字的小数部分
@@ -104,21 +115,20 @@ class _GesturePageState extends State<GesturePage> with SingleTickerProviderStat
       y = 1 - 2 * (d - 0.5);
     }
     return y;
-  }*/
+  }
   // 检测密码是否正确
   _checkPws(List<int> items){
-    bool isCorrect = true;
-  // 长度一样时遍历每个元素是否相等
 
+  // 长度一样时遍历每个元素是否相等
     if(items.length == settingPsw.length){
 
       // 如果元素不相等，则解锁失败，
       for(int i = 0;i<items.length;i++){
 
         if(items[i] != settingPsw[i]){
-          isCorrect = false;
           gestureStateKey.currentState?.selectColor = Colors.red;
           print("——————————————密码错误——————————————————");
+          animationController.forward();
           setState(() {
             textTip = "密码错误";
             textColor = Colors.red;
@@ -136,13 +146,13 @@ class _GesturePageState extends State<GesturePage> with SingleTickerProviderStat
     }
   // 长度不一样时，直接不正确( 修改选中颜色 打印错误)
     else{
-      isCorrect = false;
       print("输入的密码索引:$items");
       print("——————————————密码错误——————————————————");
       setState(() {
         textTip = "密码错误";
         textColor = Colors.red;
       });
+      animationController.forward();
       gestureStateKey.currentState?.selectColor = Colors.red;
       return;
     }
