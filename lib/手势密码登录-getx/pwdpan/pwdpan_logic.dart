@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-getx/common/eventbus.dart';
 import 'package:get/get.dart';
+import '../../11 动画/page.dart';
 import '../../手势密码登录/point.dart';
 import '../ggesture/ggesture_logic.dart';
 import 'pwdpan_state.dart';
@@ -56,7 +57,8 @@ class PwdpanLogic extends GetxController {
   // 按下方法-----初始化
   /* 1、修改选中颜色
    * 2、文字提醒
-   * 3、清空路径圆点*/
+   * 3、清空路径圆点
+   * 4、如果按下时，输入次数已用完则修改文字提醒并抖动*/
   onPanDown(DragDownDetails e,BuildContext context){
     print("按下");
     _clearAllData();
@@ -65,6 +67,7 @@ class PwdpanLogic extends GetxController {
   }
 
   // 移动时
+  /* 当输入达到上限时，不可用*/
   onPanUpdate(DragUpdateDetails e,BuildContext context){
     /*获取用户在屏幕上的点击位置，并将其转换为相对于当前组件的坐标系中的偏移量*/
     /*context.findRenderObject() 用于获取当前组件的渲染对象，即 RenderBox*/
@@ -83,19 +86,25 @@ class PwdpanLogic extends GetxController {
   onPanEnd(DragEndDetails e,BuildContext context){
     print("抬起");
     /* 如果路径不为空
-     * 则，更新当前最后的那个圆点*/
+     * 则，更新当前最后的那个圆点、处理索引*/
     if (state.pathPoints.isNotEmpty) {
       state.curPoint = state.pathPoints[state.pathPoints.length - 1];
       /* 处理当前路径圆点的索引，将其转换成int 类型的列表*/
       state.getIndex = state.pathPoints.map((e) => e.position).toList();
-      // 设置不成功
+      // 密码设置不成功
       if(!state.setSuc) {
-        // state.onPanUp(state.getIndex);
         gestureLogic.setPwd(state.getIndex);
       }
+      // 密码设置成功- 判断密码正确
+      /* 根据 返回的判断密码正确 的结果，决定是否跳转*/
       else{
-        print("设置密码成功,此时再输入就应该判断密码与设置密码的匹配");
-        gestureLogic.checkResult(state.getIndex);
+        if(gestureLogic.checkResult(state.getIndex)){
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context){
+                return const AnimationPages();
+              }));
+        }
       }
       if (state.immediatelyClear) _clearAllData(); //clear data
       update();

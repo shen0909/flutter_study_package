@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../手势密码登录/line_view.dart';
 import '../../手势密码登录/point_view.dart';
+import '../ggesture/ggesture_logic.dart';
 import 'pwdpan_logic.dart';
 
 class PwdpanPage extends StatelessWidget {
@@ -12,6 +13,7 @@ class PwdpanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final logic = Get.put(PwdpanLogic());
     final state = Get.find<PwdpanLogic>().state;
+    final gestureState = Get.find<GgestureLogic>().state;
 
     logic.set(context);
 
@@ -33,7 +35,7 @@ class PwdpanPage extends StatelessWidget {
           ),
           GestureDetector(
             onPanDown: (DragDownDetails e)=>logic.onPanDown(e, context),
-            onPanUpdate: (DragUpdateDetails e)=>logic.onPanUpdate(e, context),
+            onPanUpdate: (DragUpdateDetails e) => gestureState.inNum > 0 ? logic.onPanUpdate(e, context):null,
             onPanEnd: (DragEndDetails e)=>logic.onPanEnd(e, context),
             child: CustomPaint(
               size: Size(state.size, state.size),

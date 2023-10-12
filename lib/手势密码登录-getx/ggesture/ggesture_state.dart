@@ -12,8 +12,8 @@ class GgestureState {
   //—————— 密码 ————————
   List<int> inPwd = []; //输入的密码
   List<int> setPwd = []; //设置的密码
-  final int inNum = 5; // 输入密码次数 默认为4
-  int setNum = 2; // 输入密码次数 默认为4
+  int inNum = 5; // 输入密码次数 默认为5
+  int setNum = 2; // 设置密码次数 默认为2
 
   //—————— 动画 ————————
   String textTip = ""; // 提示信息
@@ -21,6 +21,7 @@ class GgestureState {
   late AnimationController animationController;
   late Animation<double> animationMag;
   late Animation<Color?> animationColor;
+  late BuildContext context;
 
   GlobalKey<PwdPanState> PwdPanStateKey = GlobalKey();
 

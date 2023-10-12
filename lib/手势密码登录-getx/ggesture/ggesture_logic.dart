@@ -26,21 +26,12 @@ class GgestureLogic extends GetxController with GetSingleTickerProviderStateMixi
           state.animationController.reset();
         }
       });
-    late CurvedAnimation curvedAnimation = CurvedAnimation(
-        curve: Curves.easeIn, parent: state.animationController);
+    late CurvedAnimation curvedAnimation = CurvedAnimation(curve: Curves.easeIn, parent: state.animationController);
     state.animationMag = Tween(begin: 0.0, end: 100.0).animate(curvedAnimation);
-    state.animationColor =
-        ColorTween(begin: Colors.black, end: Colors.red).animate(
-            state.animationController);
+    state.animationColor = ColorTween(begin: Colors.black, end: Colors.red).animate(state.animationController);
     if (state.setNum == 2) {
       state.textTip = "请设置手势密码";
     }
-
-    // 重新设置密码
-    eventBusG.on<EventSetPwd>().listen((event) {
-      print("laij");
-
-    });
     update();
   }
 
@@ -51,8 +42,9 @@ class GgestureLogic extends GetxController with GetSingleTickerProviderStateMixi
 
   // 设置密码
   setPwd(List<int> setPwds) {
+
     // 设置密码要输入两次
-    print("设置密码为:$setPwds");
+    print("输入的密码为:$setPwds");
 
     // 第一次设置
     if (state.setNum == 2) {
@@ -67,14 +59,13 @@ class GgestureLogic extends GetxController with GetSingleTickerProviderStateMixi
       state.setNum = state.setNum - 1;
       state.textTip = "请输入手势密码";
 
-      // 当设置密码成功后，发起一个事件通知 panlogic 密码设置成功，不用调用 setPwd 方法
+      // 当设置密码成功后，发起一个事件通知 panlogic 密码设置成功，之后再收入密码就不用调用 setPwd 方法，直接检测密码
       if (checkSetCorrct(setPwds)) {
         print("设置密码成功:${state.setPwd}");
         eventBusG.fire(EventSuccessSetPwd(true));
       }
       // 密码设置错误时，初始化信息，重新输入
       else {
-        print("密码设置错误，请重新设置");
         eventBusG.fire(EventSuccessSetPwd(false));
         state.animationController.forward();
         state.setNum = 2;
@@ -96,15 +87,33 @@ class GgestureLogic extends GetxController with GetSingleTickerProviderStateMixi
     return check(fir,sed);
   }
 
-  checkResult(List<int> items){
+  bool checkResult(List<int> items){
     print("输出的最终密码是:$items");
     print(check(items, state.setPwd)?"与设置密码一致，登录正确":"与设置密码不一致,请重新输入");
+
+    // 输入错误
     if(!check(items, state.setPwd)){
-      state.textColor = Colors.red;
-      state.textTip = "密码输入错误,请重新输入";
+      // 输入次数 -1
+      state.inNum = state.inNum -1;
+
+      /* 输入次数 <= 0 次*/
+      if(state.inNum <= 0){
+        state.textColor = Colors.amber;
+        state.textTip = "输入已达上限，请明日再来";
+      }
+      else{
+        state.textColor = Colors.red;
+        state.textTip = "密码错误,请重新输入";
+      }
       state.animationController.forward();
+      print("还有${state.inNum}次机会");
+      return false;
     }
+    state.textColor = Colors.black;
+    state.textTip = "请输入手势密码";
     update();
+    return true;
+    // 跳转到 下一个页面
   }
 
   // 判断两个密码是否相等
@@ -118,7 +127,7 @@ class GgestureLogic extends GetxController with GetSingleTickerProviderStateMixi
           return false;
         }
       }
-      print("密码设置成功:${state.setPwd}");
+      print("这两个密码相等:${state.setPwd}");
       return true;
     }
     else {
@@ -126,5 +135,5 @@ class GgestureLogic extends GetxController with GetSingleTickerProviderStateMixi
     }
   }
 
-// 限制输入密码次数
+  // 限制输入密码次数
 }
