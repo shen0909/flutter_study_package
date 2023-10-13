@@ -9,19 +9,30 @@ void main(){
   IsCase iscase = IsCase(1,2);
   print("iscsi-i:${iscase.i}");
   print("iscsi-j:${iscase.j}");
+  iscase.faPrint();
+
+  /* iscase2 是用命名构造方法 IsCase.forName() 来创建对象的，IsCase.forName()方法调用了父类的构造方法，为父类中的a值赋值
+   *  */
   IsCase iscase2 = IsCase.forName(90, 20);
   print("iscsi-i:${iscase2.i}");
   print("iscsi-j:${iscase2.j}");
+  iscase2.faPrint();
+
+  IsCase isCase3 = IsCase.forSet();
+  print("iscsi-i:${isCase3.i}");
+  print("iscsi-j:${isCase3.j}");
+  isCase3.faPrint();
+  isCase3.abPrint();
 }
 
 // 如何实现类
 /* 1. 实例变量
  * 2. 构造函数 */
-class IsCase{
+class IsCase extends FaCase with IsAbsClass{
   /*1.实例变量
    * 未初始化实例变量的默认人值为 “null”
    * 所有实例变量都有隐式getter方法，非final变量都有隐式setter方法 */
-  late num _ii;
+  late num _ii = 10;
 
   num get ii => _ii;
 
@@ -42,15 +53,41 @@ class IsCase{
     this.j = j;
     this.ii = ii;
   }*/
-  IsCase(this.i, this.j);
-
-
+  IsCase(this.i, this.j) : super(90);
   /* 命名构造函数 */
-  // 构造函数的名字 ClassName.identifier
-  IsCase.forName(this.i,this.j);
-  IsCase.forSet(){
+  IsCase.forName(this.i,this.j):super(80);
+  IsCase.forSet():super(9999){
     i = 100;
     j = 900;
   }
 
+  // 重写抽象方法
+  @override
+  aaPrint() {
+    // TODO: implement aaPrint
+    throw UnimplementedError();
+  }
+
+
+
+}
+
+class FaCase{
+  int a = 100;
+  final int _b = 450;
+
+  FaCase(this.a);
+
+  void faPrint(){
+    print("FaCase里的变量=$a");
+  }
+}
+
+abstract class IsAbsClass{
+  int b = 10;
+
+  aaPrint();
+  void abPrint(){
+    print("抽象类里的b = $b");
+  }
 }
