@@ -13,10 +13,10 @@ class GgestureState {
   List<int> inPwd = []; //输入的密码
   List<int> setPwd = []; //设置的密码
   int inNum = 5; // 输入密码次数 默认为5
-  int setNum = 2; // 设置密码次数 默认为2
+  int setNum = 0; // 设置密码次数 默认为0
 
   //—————— 动画 ————————
-  String textTip = ""; // 提示信息
+  String textTip = "请绘制手势密码"; // 提示信息
   Color textColor = Colors.black;
   late AnimationController animationController;
   late Animation<double> animationMag;

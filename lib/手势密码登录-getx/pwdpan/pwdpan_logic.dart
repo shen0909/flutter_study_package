@@ -64,6 +64,7 @@ class PwdpanLogic extends GetxController {
     _clearAllData();
     // 由于，设置错误时，提示字母的颜色是红色，而每次按下都是新的开始，所以要初始化到黑色
     gestureLogic.state.textColor = Colors.black;
+    update();
   }
 
   // 移动时
