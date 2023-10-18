@@ -120,6 +120,7 @@ class GgestureLogic extends GetxController with GetSingleTickerProviderStateMixi
     // 输入错误 每次 输入次数 -1
     if (!check(items, state.setPwd)) {
 
+      // 剩余可用的次数
       state.inNum = state.inNum - 1;
 
       /* 输入次数 <= 0 次*/
@@ -131,14 +132,14 @@ class GgestureLogic extends GetxController with GetSingleTickerProviderStateMixi
         state.textTip = "密码错误,请重新输入";
       }
       state.animationController.forward();
-      print("还有${state.inNum}次机会");
+      // print("还有${state.inNum}次机会");
       return false;
     }
+    // 判断密码输入正确
     state.textColor = Colors.black;
-    state.textTip = "请输入手势密码";
+    state.textTip = "请绘制手势密码";
     update();
     return true;
-    // 跳转到 下一个页面
   }
 
   // 判断设置密码和输入密码是否相等
@@ -146,7 +147,6 @@ class GgestureLogic extends GetxController with GetSingleTickerProviderStateMixi
 
     // 现在判断这两个密码是否相等
     if (inPut.length == sed.length) {
-      print("密码长度一致");
 
       /* 如果两个密码的长度相等，依次遍历两个密码的元素*/
       for (int i = 0; i < inPut.length; i++) {

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/%E6%89%8B%E5%8A%BF%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-getx/common/eventbus.dart';
 import 'package:get/get.dart';
@@ -60,7 +59,6 @@ class PwdpanLogic extends GetxController {
    * 3、清空路径圆点
    * 4、如果按下时，输入次数已用完则修改文字提醒并抖动*/
   onPanDown(DragDownDetails e,BuildContext context){
-    print("按下");
     _clearAllData();
     // 由于，设置错误时，提示字母的颜色是红色，而每次按下都是新的开始，所以要初始化到黑色
     gestureLogic.state.textColor = Colors.black;
@@ -85,20 +83,20 @@ class PwdpanLogic extends GetxController {
 
   // 抬起时，传回密码索引，更新当前点
   onPanEnd(DragEndDetails e,BuildContext context){
-    print("抬起");
     /* 如果路径不为空
      * 则，更新当前最后的那个圆点、处理索引*/
     if (state.pathPoints.isNotEmpty) {
       state.curPoint = state.pathPoints[state.pathPoints.length - 1];
       /* 处理当前路径圆点的索引，将其转换成int 类型的列表*/
       state.getIndex = state.pathPoints.map((e) => e.position).toList();
-      // 密码设置不成功
+      // 密码设置不成功-> 此时输入的用于重新设置密码
       if(!state.setSuc) {
         gestureLogic.setPwd(state.getIndex);
       }
-      // 密码设置成功- 判断密码正确
+      // 密码设置成功-> 此时输入的用于判断密码正确
       /* 根据 返回的判断密码正确 的结果，决定是否跳转*/
       else{
+        // 密码输入正确 跳转到 下一个页面
         if(gestureLogic.checkResult(state.getIndex)){
           Navigator.push(
               context,

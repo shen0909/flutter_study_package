@@ -35,6 +35,7 @@ class PwdpanPage extends StatelessWidget {
           ),
           GestureDetector(
             onPanDown: (DragDownDetails e)=>logic.onPanDown(e, context),
+            // 限制输入次数，输入次数<=0 方法无效
             onPanUpdate: (DragUpdateDetails e) => gestureState.inNum > 0 ? logic.onPanUpdate(e, context):null,
             onPanEnd: (DragEndDetails e)=>logic.onPanEnd(e, context),
             child: CustomPaint(
