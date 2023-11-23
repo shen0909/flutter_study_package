@@ -1,12 +1,11 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'http_manager.dart';
 
 main() async {
-  runApp(DioUsePage());
+  runApp(const DioUsePage());
 }
 
 class DioUsePage extends StatelessWidget {
@@ -14,7 +13,7 @@ class DioUsePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: "Flutter Demo",
       debugShowCheckedModeBanner: false,
       home: DioUse(),
@@ -23,61 +22,70 @@ class DioUsePage extends StatelessWidget {
 }
 
 class DioUse extends StatelessWidget {
+  const DioUse({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     // dio_use();
     return Scaffold(
       appBar: AppBar(
-        title: Text("首页"),
+        title: const Text("网络操作功能页"),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => saveImage(),
-                  child: Text("保存图片到本地"),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () => uploadImage(),
-                  child: Text("上传图片到api"),
-                ),
-              ],
-            ),
-            SizedBox(height: 30,),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () => get_no_param(),
-                  child: Text("get 无参"),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () => get_params(),
-                  child: Text("get_有参"),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () => post(),
-                  child: Text("post"),
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: Column(
+        children: [
+          const SizedBox(height: 30,),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () => saveImage(),
+                child: const Text("保存图片到本地"),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => uploadImage(),
+                child: const Text("上传图片到api"),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => uploadPdf(),
+                child: const Text("上传pdf文件到api"),
+              ),
+            ],
+          ),
+          const SizedBox(height: 30,),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () => getNoParam(),
+                child: const Text("get 无参"),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => getParams(),
+                child: const Text("get_有参"),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => post(),
+                child: const Text("post"),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
 
+// 保存网络图片
 Future<void> saveImage() async {
   print("保存图片到本地");
   //下载图片
@@ -94,29 +102,29 @@ Future<void> saveImage() async {
   } else {
     print("selectedDirectory:${selectedDirectory}");
     //创建一个名为download1.jpg的新文件
-    File image_file = File('${selectedDirectory}/download1.jpg');
-    if (image_file.existsSync()) {
+    File imageFile = File('${selectedDirectory}/download1.jpg');
+    if (imageFile.existsSync()) {
       print("图片已存在");
       return;
     }
     //从网络上下载的图片的字节数组写入该文件中。
-    image_file.writeAsBytes(result);
+    imageFile.writeAsBytes(result);
   }
 }
-//上传图片到api
-uploadImage() async {
+
+// 上传图片到api
+void uploadImage() async {
   print("上传图片到api");
   //从文件夹中选择图片————type: FileType.image  规定选择类型
-  FilePickerResult? pickResult =
-      await FilePicker.platform.pickFiles(type: FileType.image);
-  //当选择的文件不为空时
+  FilePickerResult? pickResult = await FilePicker.platform.pickFiles(type: FileType.image);
 
+  //当选择的文件不为空时
   if (pickResult != null) {
     PlatformFile result = pickResult.files.single;
-    print("result:${result.path}");
-    var getresult = await HttpManager.getInstance()
-        .uploadImage("Customer/userfile/v1/uploadFile", result.path);
+    print("选取图片地址:${result.path}");
+    var getresult = await HttpManager.getInstance().uploadImage("Customer/userfile/v1/uploadFile", result.path);
     print("getresult:${getresult}");
+
     //将新的文件中将图片读取成base64格式————————但是由于上传文件时是直接根据文件路径上传的所以不必创建新文件和转换格式
     /*
     File LoadFiel = new File(result.path!);
@@ -127,7 +135,23 @@ uploadImage() async {
   }
 }
 
-void get_no_param()async{
+// 上传pdf
+void uploadPdf() async{
+  print("上传pdf到api");
+  /*type: FileType.custom 指定文件选择器文件的类型为自定义，此时需要使用 allowedExtensions 参数进行指定*/
+  FilePickerResult? pickResult = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['pdf']);
+
+  if(pickResult != null){
+    PlatformFile result = pickResult.files.single;
+    print("选取pdf地址:${result.path}");
+    print("pdf名称:${result.name}");
+    var getresult = await HttpManager.getInstance().uploadPdf("Customer/userfile/v1/uploadFile", result.path,result.name);
+    print("getresult:${getresult}");
+  }
+}
+
+// GET 请求方法 无参
+void getNoParam()async{
   //get 无参
   await HttpManager.getInstance().get(
     // "https://api.github.com/orgs/flutterchina/repos?id=189944669",
@@ -136,7 +160,8 @@ void get_no_param()async{
   );
 }
 
-void get_params()async{
+// GET 请求方法 有参
+void getParams()async{
   // 获取id 法一
   await HttpManager.getInstance().get("https://reqres.in/api/users/1");
 
@@ -174,7 +199,7 @@ void post()async{
   );*/
 }
 
-void dio_use() async {
+void dioUse() async {
   //get 无参
   await HttpManager.getInstance().get(
     // "https://api.github.com/orgs/flutterchina/repos?id=189944669",

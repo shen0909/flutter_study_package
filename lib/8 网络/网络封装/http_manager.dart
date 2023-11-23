@@ -17,7 +17,7 @@ class HttpManager {
   //2、静态属性——该类的实例
   static HttpManager? _instance = HttpManager._internal();
 
-  //3、私有的命名构造函数，确保外部不能拿到它————初始化实例
+  // 3、私有的命名构造函数，确保外部不能拿到它————初始化实例
   /*在私有构造方法中，在里面可以进行初始化dio实例*/
   HttpManager._internal() {
     //4.2、设置BaseOptions
@@ -44,9 +44,10 @@ class HttpManager {
     dio.interceptors.add(new DioLogInterceptor());
   }
 
-  //4.1、创建一个 Dio 实例
+  // 4.1、创建一个 Dio 实例
   late Dio dio;
 
+  // get请求封装
   /*get方法使用指定的路径和查询参数向服务器发送 HTTP GET 请求。
    * 它还允许您传递其他选项，例如标头、响应类型和超时。
    * 该方法返回一个 Future 对象，该对象使用包含来自服务器的 HTTP 响应的 Response 对象进行解析*/
@@ -61,7 +62,8 @@ class HttpManager {
   get(String url, {option, params, data}) async {
     Response response;
     try {
-      response = await dio.get(url, options: option, queryParameters: params, data: data);
+      response = await dio.get(url,
+          options: option, queryParameters: params, data: data);
       //响应体
       print("response.data:${response.data}");
       //响应的状态码
@@ -80,6 +82,7 @@ class HttpManager {
     }
   }
 
+  // post请求封装
   /*Dio的post方法更像是dio.get()。其他一切保持不变，但我们需要提供标头信息和数据以发送到服务器。
    * 大多数 post 方法需要发送特殊类型的令牌才能发送到服务器。我们将在标头中发送该信息。
    * 首先让我们研究从本地设备查找令牌然后返回该 header 的方法。我们将在dio.post()方法中使用返回的标头。*/
@@ -108,20 +111,44 @@ class HttpManager {
     }
   }
 
-  //上传图片
+  //上传图片操作封装
   uploadImage(url, filePath, {option}) async {
-
     Response response;
 
     final formdata = FormData.fromMap({
-      'file': await MultipartFile.fromFile(filePath,
+      'file': await MultipartFile.fromFile(
+          filePath,
           filename: DateTime.now().millisecondsSinceEpoch.toString() + '.jpg'),
     });
     try {
-      response = await dio.post(url, options: option, data: formdata);
+      response = await dio.post(url, options: option, data: formdata,onSendProgress: (int send,int total){
+        print("进度：${100-total~/send}%");
+      });
       return response.data;
     } on DioException catch (e) {
       print("上传图片出错:${e.message}");
+    }
+  }
+
+  // 上传pdf文件操作封装
+  uploadPdf(url,filePath,fileName,{option}) async {
+
+    Response response ;
+    FormData formData = FormData.fromMap(
+        {
+          'file': await MultipartFile.fromFile(
+            filePath,
+            filename: fileName),
+        }
+    );
+    try {
+      response = await dio.post(url, options: option, data: formData,onSendProgress: (int send,int total){
+        double progressPercent = send / total * 100;
+        print("进度：$progressPercent%");
+      });
+      return response.data;
+    } on DioException catch (e) {
+      print("上传pdf出错:${e.message}");
     }
   }
 }
