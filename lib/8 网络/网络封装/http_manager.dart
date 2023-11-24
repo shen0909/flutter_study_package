@@ -39,7 +39,7 @@ class HttpManager {
       responseType: ResponseType.json,
     );
     //4.3 初始化dio实例
-    dio = new Dio(baseOptions);
+    dio = Dio(baseOptions);
     //添加一个自定义拦截器
     dio.interceptors.add(new DioLogInterceptor());
   }
@@ -144,7 +144,7 @@ class HttpManager {
     try {
       response = await dio.post(url, options: option, data: formData,onSendProgress: (int send,int total){
         double progressPercent = send / total * 100;
-        print("进度：$progressPercent%");
+        print("进度：${progressPercent.toStringAsFixed(2)}%");
       });
       return response.data;
     } on DioException catch (e) {
