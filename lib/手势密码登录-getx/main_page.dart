@@ -7,9 +7,7 @@ class GMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("手势登录-getx"),
-      ),
+      appBar: AppBar(title: const Text("手势登录-getx")),
       body: const GgesturePage(),
     );
   }

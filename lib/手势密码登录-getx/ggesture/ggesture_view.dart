@@ -6,7 +6,6 @@ import 'ggesture_logic.dart';
 class GgesturePage extends StatelessWidget {
   const GgesturePage({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     Get.put(GgestureLogic());
@@ -19,20 +18,21 @@ class GgesturePage extends StatelessWidget {
         children: [
           AnimatedBuilder(
               animation: state.animationMag,
-              builder: (context,child){
+              builder: (context, child) {
                 return Container(
-                    margin:EdgeInsets.only(
+                    margin: EdgeInsets.only(
                       bottom: 20,
                       left: logic.errorPwd() * 110,
                       right: state.animationMag.value,
-                    ) ,
-                    child: Text(state.textTip,style: TextStyle(fontSize: 20,color: state.textColor),));
+                    ),
+                    child: Text(
+                      state.textTip,
+                      style: TextStyle(fontSize: 20, color: state.textColor),
+                    ));
               }),
-          const SizedBox(height: 20,),
+          const SizedBox(height: 20),
           // 绘制密码盘
-          const Center(
-            child: PwdpanPage(),
-          ),
+          const Center(child: PwdpanPage()),
           // Center(
           //   child: Container(
           //     color: Colors.amber,
@@ -49,6 +49,4 @@ class GgesturePage extends StatelessWidget {
       );
     });
   }
-
-
 }

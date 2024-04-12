@@ -66,7 +66,8 @@ class _HYHomePageState extends State<HYHomePage>
     ); //this 只能在方法中用
 
     //Tep2、设置curve值(但是记住不能用之前的controller，因为它是匀速的)
-    animation = CurvedAnimation(parent: _controller, curve: Curves.elasticInOut);
+    animation =
+        CurvedAnimation(parent: _controller, curve: Curves.elasticInOut);
     //Tep3、设置Tween
     animation = Tween(begin: 390.0, end: 400.0).animate(animation);
     //Tep4、设置动画的翻转
@@ -88,27 +89,26 @@ class _HYHomePageState extends State<HYHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("首页"),
-      ),
+      appBar: AppBar(title: Text("首页")),
       body: Center(
-        child: Icon(
-          Icons.favorite,
-          color: Colors.red,
-          size: animation.value,
-        ),
-        /*如何由小变大*/
-      ),
+          child: Icon(
+        Icons.favorite,
+        color: Colors.red,
+        size: animation.value,
+      )
+          /*如何由小变大*/
+          ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.play_arrow),
+        child: const Icon(Icons.play_arrow),
         onPressed: () {
           print("执行动画");
           //_controller.forward();//向前执行动画
           /*点击按钮暂停和开始*/
-          if (_controller.isAnimating) //如果正在执行动画
-            _controller.stop(); //则暂停
-          else
+          if (_controller.isAnimating) {
+            _controller.stop();
+          } else {
             _controller.forward();
+          }
         },
       ),
     );

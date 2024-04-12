@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/douban/pages/main/main.dart';
-import 'package:flutterapp/douban/widgets/star_rating.dart';
+
 /*将评分widget封装成一个单独的组件===>具有通用性*/
-main()=>runApp(DouBanAPP());
+main() => runApp(DouBanAPP());
 
 class DouBanAPP extends StatelessWidget {
   const DouBanAPP({Key? key}) : super(key: key);
@@ -13,30 +13,24 @@ class DouBanAPP extends StatelessWidget {
     return MaterialApp(
       title: "DouBanDemo",
       theme: ThemeData(
-        brightness: Brightness.light ,
-        primaryColor: Colors.lightBlue,
-        highlightColor: Colors.transparent,//点击时的高亮效果为透明
-        splashColor: Colors.transparent//长按的扩散效果为透明
-      ),
-      home:Scaffold(
-        body: HYpage(),
-      ),
+          brightness: Brightness.light,
+          primaryColor: Colors.lightBlue,
+          highlightColor: Colors.transparent, //点击时的高亮效果为透明
+          splashColor: Colors.transparent //长按的扩散效果为透明
+          ),
+      home: const Scaffold(body: HYpage()),
     );
   }
 }
 
 class HYpage extends StatelessWidget {
-  const HYpage({
-    Key? key,
-  }) : super(key: key);
+  const HYpage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return HYMainScreen();
   }
 }
-
-
 
 /*class DashLine extends StatelessWidget {
   const DashLine({
@@ -55,9 +49,3 @@ class HYpage extends StatelessWidget {
     );
   }
 }*/
-
-
-
-
-
-

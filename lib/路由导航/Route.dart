@@ -65,7 +65,7 @@ class _HYpageState extends State<HYpage> {
   Widget build(BuildContext contextx) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text("路由与导航")),
+        title: const Center(child: Text("路由与导航")),
       ),
       body: Center(
         child: Column(
@@ -80,11 +80,11 @@ class _HYpageState extends State<HYpage> {
                     _jumpToDetail(context);//跳转到详情页相关代码单独抽成一个方法
                   },
                 ),
-                SizedBox(width: 10,),
+                const SizedBox(width: 10,),
                 Text("接收到详情页返回的消息:${message}")
               ],
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Row(
               children: [
                 ElevatedButton(
@@ -94,15 +94,15 @@ class _HYpageState extends State<HYpage> {
                     _jumpToAbout(context);//跳转到详情页相关代码单独抽成一个方法
                   },
                 ),
-                SizedBox(width: 10,),
+                const SizedBox(width: 10,),
                 Text("接收到关于页返回的消息:${data}")
               ],
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Row(
               children: [
                 ElevatedButton(
-                  child: Text("跳转到详情页2"),
+                  child: const Text("跳转到详情页2"),
                   //点击按钮跳转到详情页面
                   onPressed: (){
                     _jumpToDetail2(context);//跳转到详情页相关代码单独抽成一个方法
@@ -111,7 +111,7 @@ class _HYpageState extends State<HYpage> {
               ],
             ),
             ElevatedButton(
-              child: Text("跳转到未知页面"),
+              child: const Text("跳转到未知页面"),
               //点击按钮跳转到详情页面
               onPressed: (){
                 _jumpToErro(context);//跳转到详情页相关代码单独抽成一个方法

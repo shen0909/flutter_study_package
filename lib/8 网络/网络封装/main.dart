@@ -28,51 +28,41 @@ class DioUse extends StatelessWidget {
   Widget build(BuildContext context) {
     // dio_use();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("网络操作功能页"),
-      ),
+      appBar: AppBar(title: const Text("网络操作功能页")),
       body: Column(
         children: [
-          const SizedBox(height: 30,),
+          const SizedBox(height: 30),
           Row(
             children: [
               ElevatedButton(
                 onPressed: () => saveImage(),
                 child: const Text("保存图片到本地"),
               ),
-              const SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () => uploadImage(),
                 child: const Text("上传图片到api"),
               ),
-              const SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () => uploadPdf(),
                 child: const Text("上传pdf文件到api"),
               ),
             ],
           ),
-          const SizedBox(height: 30,),
+          const SizedBox(height: 30),
           Row(
             children: [
               ElevatedButton(
                 onPressed: () => getNoParam(),
                 child: const Text("get 无参"),
               ),
-              const SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () => getParams(),
                 child: const Text("get_有参"),
               ),
-              const SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () => post(),
                 child: const Text("post"),
@@ -116,13 +106,15 @@ Future<void> saveImage() async {
 void uploadImage() async {
   print("上传图片到api");
   //从文件夹中选择图片————type: FileType.image  规定选择类型
-  FilePickerResult? pickResult = await FilePicker.platform.pickFiles(type: FileType.image);
+  FilePickerResult? pickResult =
+      await FilePicker.platform.pickFiles(type: FileType.image);
 
   //当选择的文件不为空时
   if (pickResult != null) {
     PlatformFile result = pickResult.files.single;
     print("选取图片地址:${result.path}");
-    var getresult = await HttpManager.getInstance().uploadImage("Customer/userfile/v1/uploadFile", result.path);
+    var getresult = await HttpManager.getInstance()
+        .uploadImage("Customer/userfile/v1/uploadFile", result.path);
     print("getresult:${getresult}");
 
     //将新的文件中将图片读取成base64格式————————但是由于上传文件时是直接根据文件路径上传的所以不必创建新文件和转换格式
@@ -136,22 +128,24 @@ void uploadImage() async {
 }
 
 // 上传pdf
-void uploadPdf() async{
+void uploadPdf() async {
   print("上传pdf到api");
   /*type: FileType.custom 指定文件选择器文件的类型为自定义，此时需要使用 allowedExtensions 参数进行指定*/
-  FilePickerResult? pickResult = await FilePicker.platform.pickFiles(type: FileType.custom,allowedExtensions: ['pdf']);
+  FilePickerResult? pickResult = await FilePicker.platform
+      .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
 
-  if(pickResult != null){
+  if (pickResult != null) {
     PlatformFile result = pickResult.files.single;
     print("选取pdf地址:${result.path}");
     print("pdf名称:${result.name}");
-    var getresult = await HttpManager.getInstance().uploadPdf("Customer/userfile/v1/uploadFile", result.path,result.name);
+    var getresult = await HttpManager.getInstance()
+        .uploadPdf("Customer/userfile/v1/uploadFile", result.path, result.name);
     print("getresult:${getresult}");
   }
 }
 
 // GET 请求方法 无参
-void getNoParam()async{
+void getNoParam() async {
   //get 无参
   await HttpManager.getInstance().get(
     // "https://api.github.com/orgs/flutterchina/repos?id=189944669",
@@ -161,7 +155,7 @@ void getNoParam()async{
 }
 
 // GET 请求方法 有参
-void getParams()async{
+void getParams() async {
   // 获取id 法一
   await HttpManager.getInstance().get("https://reqres.in/api/users/1");
 
@@ -173,10 +167,9 @@ void getParams()async{
   map["id"] = 3;
   await HttpManager.getInstance().get("https://reqres.in/api/users",
       option: Options(responseType: ResponseType.json), params: map);
-
 }
 
-void post()async{
+void post() async {
   // await HttpManager.getInstance().post("FinanceAppAPI/user/queryLoginTradeAccount");
 
   //注册
@@ -186,13 +179,12 @@ void post()async{
         "password": "123456",
         "repassword": "123456"
       });*/
-  await HttpManager.getInstance().post("https://www.wanandroid.com/user/login",
-      params: {
-        "username": "akshfalwhfaina",
-        "password": "123456",
-      }
-  );
-      /*await HttpManager.getInstance().post("https://demo-api.apipost.cn/api/demo/login",
+  await HttpManager.getInstance()
+      .post("https://www.wanandroid.com/user/login", params: {
+    "username": "akshfalwhfaina",
+    "password": "123456",
+  });
+  /*await HttpManager.getInstance().post("https://demo-api.apipost.cn/api/demo/login",
       params: {"mobile": "123456", "ver_code": "12"});
   await HttpManager.getInstance().post(
     "https://lionstock-uat-new.chinaeast2.cloudapp.chinacloudapi.cn:8200/FinanceAppAPI/stock/index",
@@ -219,15 +211,17 @@ void dioUse() async {
   await HttpManager.getInstance().get("https://reqres.in/api/users",
       option: Options(responseType: ResponseType.json), params: map);
 
-  await HttpManager.getInstance().post("FinanceAppAPI/user/queryLoginTradeAccount");
+  await HttpManager.getInstance()
+      .post("FinanceAppAPI/user/queryLoginTradeAccount");
 
-  await HttpManager.getInstance().post("https://www.wanandroid.com/user/register",
-      params: {
-        "username": "akshfalwhfaina",
-        "password": "123456",
-        "repassword": "123456"
-      });
-  await HttpManager.getInstance().post("https://demo-api.apipost.cn/api/demo/login",
+  await HttpManager.getInstance()
+      .post("https://www.wanandroid.com/user/register", params: {
+    "username": "akshfalwhfaina",
+    "password": "123456",
+    "repassword": "123456"
+  });
+  await HttpManager.getInstance().post(
+      "https://demo-api.apipost.cn/api/demo/login",
       params: {"mobile": "123456", "ver_code": "12"});
   await HttpManager.getInstance().post(
     "https://lionstock-uat-new.chinaeast2.cloudapp.chinacloudapi.cn:8200/FinanceAppAPI/stock/index",

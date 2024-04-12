@@ -9,7 +9,7 @@ class HYgourpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Center(child: Text("群组"),),),
-      body:HYGroupContent(),
+      body:const HYGroupContent()
     );
   }
 }

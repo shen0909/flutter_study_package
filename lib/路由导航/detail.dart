@@ -34,7 +34,7 @@ class HYDetailPage extends StatelessWidget {
             icon: Icon(Icons.keyboard_backspace),
             onPressed: ()=>_jumpToHome(context),
           ),*/
-          title: Text("详情页"),
+          title: const Text("详情页"),
         ),
         body: Center(
           child: Column
@@ -43,7 +43,7 @@ class HYDetailPage extends StatelessWidget {
             //crossAxisAlignment: CrossAxisAlignment.center,
               children:[
               Text("$message",style: TextStyle(fontSize: 30),),
-              ElevatedButton(onPressed:()=>_jumpToHome(context), child: Text("回到首页")),]
+              ElevatedButton(onPressed:()=>_jumpToHome(context), child: const Text("回到首页")),]
           ),
         ),
       ),

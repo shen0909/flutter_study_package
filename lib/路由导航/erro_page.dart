@@ -9,12 +9,12 @@ class HYErroPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("错误页面"),
+        title: const Text("错误页面"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Text("ERRO!!!ERRO!!!",style: TextStyle(fontSize: 30,color: Colors.red),)
           ],
         ),
